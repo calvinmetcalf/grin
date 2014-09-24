@@ -1,0 +1,37 @@
+{
+  "name": "no-recursion-merge-sort",
+  "version": "1.0.1",
+  "description": "Super simple and non-recursive JSON parse/stringify library",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nolanlawson/no-recursion-merge-sort.git"
+  },
+  "keywords": [
+    "no-recursion-merge-sort",
+    "json.parse",
+    "stringify",
+    "recursion"
+  ],
+  "author": "Nolan Lawson <nolan.lawson@gmail.com>",
+  "license": "Apache 2",
+  "bugs": {
+    "url": "https://github.com/nolanlawson/no-recursion-merge-sort/issues"
+  },
+  "homepage": "https://github.com/nolanlawson/no-recursion-merge-sort",
+  "scripts": {
+    "test": "npm run jshint && npm run test-node",
+    "jshint": "jshint -c .jshintrc *.js test/test.js",
+    "test-node": "istanbul test ./node_modules/mocha/bin/_mocha test/test.js",
+    "coverage": "npm test --coverage && istanbul check-coverage --lines 100 --function 100 --statements 100 --branches 100"
+  },
+  "devDependencies": {
+    "browserify": "~2.36.0",
+    "chai": "^1.9.1",
+    "chai-as-promised": "^4.1.1",
+    "istanbul": "^0.2.7",
+    "jshint": "^2.5.5",
+    "mocha": "^1.18.2",
+    "uglify-js": "^2.4.13"
+  }
+}
