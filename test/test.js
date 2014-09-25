@@ -22,6 +22,27 @@ function tests() {
       sort(arr, function (a, b) { return a - b; }).should.deep.equal(
         [ 1, 2, 3, 4, 10, 12, 25, 30 ]);
     });
+    it('passes some more tests', function () {
+      var arrays = [
+        [],
+        [1],
+        [1, 2],
+        [1, 3, 4, 5],
+        [2, 1],
+        [10, 3, 4, 5, 2],
+        [9, 1, 4, 4, 4],
+        [4, 4],
+        [4, 4, 4]
+      ];
+      
+      arrays.forEach(function (arr) {
+        console.log(arr);
+        sort(arr).should.deep.equal(arr.slice().sort());
+        var comparator = function (a, b) { return a - b; };
+        sort(arr, comparator).should.deep.equal(
+          arr.slice().sort(comparator));
+      });
+    });
   });
 }
 
