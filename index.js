@@ -1,7 +1,7 @@
 'use strict';
 function defaultComparator (a, b) {
-  var aString = String(a);
-  var bString = String(b);
+  var aString = typeof a !== "string" ? String(a) : a;
+  var bString = typeof b !== "string" ? String(b) : b;
   if (aString === bString) {
     return 0;
   }
@@ -30,9 +30,11 @@ function makeComparator(func) {
     return result;
   }
 }
+
+var wrappedDefaultComparator = makeComparator(defaultComparator);
+
 module.exports = mergeSort;
 function mergeSort(array, comparator) {
-  array = array.slice();
   if (array.length < 2) {
     // We consider the array already sorted, no change is done
     return array;
@@ -41,7 +43,8 @@ function mergeSort(array, comparator) {
   var len = array.length;
   var otherArray = new Array(len);
   // default javascript sorting to mimic the native Array.prototype.sort
-  comparator = makeComparator(comparator || defaultComparator);
+  comparator = typeof comparator === "function" ?
+    makeComparator(comparator) : wrappedDefaultComparator;
  
   var batchSize = 2;
   var start = 0;
@@ -86,17 +89,20 @@ function merge(start, stop, inarray, outarray, comparator) {
     return;
   }
   while ((aDone + bDone) > 0) {
-    a = inarray[aCursor];
-    b = inarray[bCursor];
     if (!aDone) {
-      outarray[cCursor++] = b;
+      outarray[cCursor++] = inarray[bCursor];
       bCursor++;
       bDone--;
+      continue;
     } else if (!bDone) {
-      outarray[cCursor++] = a;
+      outarray[cCursor++] = inarray[aCursor];
       aCursor++;
       aDone--;
-    } else if(comparator(a, b) <= 0) {
+      continue;
+    }
+    a = inarray[aCursor];
+    b = inarray[bCursor];
+    if(comparator(a, b) <= 0) {
       outarray[cCursor++] = a;
       aCursor++;
       aDone--;
