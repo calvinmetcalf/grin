@@ -1,6 +1,8 @@
 no-recursion-merge-sort
 =========
 
+[![Build Status](https://travis-ci.org/nolanlawson/no-recursion-merge-sort.svg)](https://travis-ci.org/nolanlawson/no-recursion-merge-sort)
+
 Simple non-recursive implementation of merge sort. Based on [this Java implementation](http://andreinc.net/2010/12/26/bottom-up-merge-sort-non-recursive/).
 
 Usage
