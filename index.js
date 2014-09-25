@@ -1,14 +1,5 @@
 'use strict';
 function defaultComparator (a, b) {
-  if (a === void 0) {
-    if (b === void 0) {
-      return 0;
-    } else {
-      return 1;
-    }
-  } else if (b === void 0) {
-    return -1;
-  }
   var aString = String(a);
   var bString = String(b);
   if (aString === bString) {
@@ -18,6 +9,25 @@ function defaultComparator (a, b) {
     return -1;
   } else {
     return 1;
+  }
+}
+function makeComparator(func) {
+  return compare;
+  function compare (a, b) {
+    if (a === void 0) {
+      if (b === void 0) {
+        return 0;
+      } else {
+        return 1;
+      }
+    } else if (b === void 0) {
+      return -1;
+    }
+    var result = func(a, b);
+    if (result !== result) {
+      return 0;
+    }
+    return result;
   }
 }
 module.exports = mergeSort;
@@ -31,7 +41,7 @@ function mergeSort(array, comparator) {
   var len = array.length;
   var otherArray = new Array(len);
   // default javascript sorting to mimic the native Array.prototype.sort
-  comparator = comparator || defaultComparator;
+  comparator = makeComparator(comparator || defaultComparator);
  
   var batchSize = 2;
   var start = 0;
@@ -39,11 +49,7 @@ function mergeSort(array, comparator) {
   var temp;
   while (batchSize <= (len << 1)) {
     while (start < len) {
-      if (stop > len) {
-        finalmerge(start, stop, array, otherArray, comparator);
-      } else {
-        merge(start, stop, array, otherArray, comparator);
-      }
+      merge(start, stop, array, otherArray, comparator);
       start = stop;
       stop += batchSize;
     }
@@ -58,38 +64,10 @@ function mergeSort(array, comparator) {
 }
 
 function merge(start, stop, inarray, outarray, comparator) {
-  var totallen = stop - start;
-  var len = totallen/2;
-  var aCursor = start;
-  var bCursor = start + len;
-  var aDone = len;
-  var bDone = len;
-  var cCursor = start;
-  var a, b;
-  while ((aDone + bDone) > 0) {
-    a = inarray[aCursor];
-    b = inarray[bCursor];
-    if (!aDone) {
-      outarray[cCursor++] = b;
-      bCursor++;
-      bDone--;
-    } else if (!bDone) {
-      outarray[cCursor++] = a;
-      aCursor++;
-      aDone--;
-    } else if(comparator(a, b) < 0) {
-      outarray[cCursor++] = a;
-      aCursor++;
-      aDone--;
-    } else {
-      outarray[cCursor++] = b;
-      bCursor++;
-      bDone--;
-    }
-  }
-}
-function finalmerge(start, stop, inarray, outarray, comparator) {
-  var diff = stop - inarray.length;
+  var diff = 0;
+  if (stop > inarray.length) {
+    diff = stop - inarray.length;
+  } 
   var totallen = stop - start;
   var len = totallen/2;
   var aCursor = start;
@@ -118,7 +96,7 @@ function finalmerge(start, stop, inarray, outarray, comparator) {
       outarray[cCursor++] = a;
       aCursor++;
       aDone--;
-    } else if(comparator(a, b) < 0) {
+    } else if(comparator(a, b) <= 0) {
       outarray[cCursor++] = a;
       aCursor++;
       aDone--;

@@ -32,7 +32,9 @@ function tests() {
         [10, 3, 4, 5, 2],
         [9, 1, 4, 4, 4],
         [4, 4],
-        [4, 4, 4]
+        [4, 4, 4],
+        [2, undefined, 3, 4, undefined],
+        ['david', 'steve']
       ];
       
       arrays.forEach(function (arr) {
