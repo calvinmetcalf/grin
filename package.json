@@ -1,14 +1,14 @@
 {
-  "name": "no-recursion-merge-sort",
+  "name": "grin",
   "version": "1.0.1",
   "description": "Super simple and non-recursive JSON parse/stringify library",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nolanlawson/no-recursion-merge-sort.git"
+    "url": "https://github.com/calvinmetcalf/grin.git"
   },
   "keywords": [
-    "no-recursion-merge-sort",
+    "grin",
     "json.parse",
     "stringify",
     "recursion"
@@ -16,9 +16,9 @@
   "author": "Nolan Lawson <nolan.lawson@gmail.com>",
   "license": "Apache 2",
   "bugs": {
-    "url": "https://github.com/nolanlawson/no-recursion-merge-sort/issues"
+    "url": "https://github.com/calvinmetcalf/grin/issues"
   },
-  "homepage": "https://github.com/nolanlawson/no-recursion-merge-sort",
+  "homepage": "https://github.com/calvinmetcalf/grin",
   "scripts": {
     "test": "npm run jshint && npm run test-node",
     "jshint": "jshint -c .jshintrc *.js test/test.js",
