@@ -5,6 +5,8 @@ no-recursion-merge-sort
 
 Simple non-recursive implementation of merge sort. Originally based on [this Java implementation](http://andreinc.net/2010/12/26/bottom-up-merge-sort-non-recursive/), now mostly written by [@calvinmetcalf](https://github.com/calvinmetcalf).
 
+Status, should work, does modify the array in place, will not work on sparse arrays exactly like native but that's ok.
+
 Usage
 ----
 

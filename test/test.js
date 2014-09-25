@@ -36,10 +36,9 @@ function tests() {
       ];
       
       arrays.forEach(function (arr) {
-        console.log(arr);
-        sort(arr).should.deep.equal(arr.slice().sort());
+        sort(arr.slice()).should.deep.equal(arr.slice().sort());
         var comparator = function (a, b) { return a - b; };
-        sort(arr, comparator).should.deep.equal(
+        sort(arr.slice(), comparator).should.deep.equal(
           arr.slice().sort(comparator));
       });
     });
