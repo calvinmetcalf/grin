@@ -13,7 +13,6 @@
     "stringify",
     "recursion"
   ],
-  "author": "Nolan Lawson <nolan.lawson@gmail.com>",
   "license": "Apache 2",
   "bugs": {
     "url": "https://github.com/calvinmetcalf/grin/issues"
