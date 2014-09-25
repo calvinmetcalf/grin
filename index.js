@@ -1,70 +1,70 @@
 'use strict';
-
+function defaultComparator (a, b) {
+  var aString = a.toString();
+  var bString = b.toString();
+  return aString < bString ? -1 : aString > bString ? 1 : 0;
+}
+module.exports = mergeSort;
 function mergeSort(array, comparator) {
   array = array.slice();
-  if(array.length < 2) {
+  if (array.length < 2) {
     // We consider the array already sorted, no change is done
     return array;
   }
 
+  var len = array.length;
+  var otherArray = new Array(len);
   // default javascript sorting to mimic the native Array.prototype.sort
-  comparator = comparator || function (a, b) {
-    console.log('a is ' + a + ', b is ' + b);
-    var aString = a.toString();
-    var bString = b.toString();
-    return aString < bString ? -1 : aString > bString ? 1 : 0;
-  };
-
-  // The size of the sub-arrays . Constantly changing .
-  var step = 1;
-  var startL, startR;
-
-  while(step < array.length) {
-    startL = 0;
-    startR = step;
-    while(startR + step <= array.length) {
-      mergeArrays(array, startL, startL + step, startR, startR + step, comparator);
-      startL = startR + step;
-      startR = startL + step;
+  comparator = comparator || defaultComparator;
+ 
+  var batchSize = 2;
+  var start = 0;
+  var stop = batchSize;
+  var temp;
+  while (batchSize <= (len << 1)) {
+    while (start < len) {
+      merge(start, stop, array, otherArray, comparator);
+      start = stop;
+      stop += batchSize;
     }
-    if(startR < array.length) {
-      mergeArrays(array, startL, startL + step, startR, array.length - 1, comparator);
-    }
-    step *= 2;
+    temp = otherArray;
+    otherArray = array;
+    array = temp;
+    batchSize <<= 1;
+    start = 0;
+    stop = Math.min(len, batchSize);
   }
-  console.log(JSON.stringify(array));
-  return array;
+  return otherArray;
 }
 
-function mergeArrays(array, startL, stopL, startR, stopR, comparator) {
-  // Additional arrays needed for merging
-  var right = new Array(stopR - startR + 1);
-  var left = new Array(stopL - startL + 1);
-
-  var i, k, m, n;
-
-  // Copy the elements to the additional arrays
-  for(i = 0, k = startR; i < (right.length - 1); ++i, ++k) {
-    right[i] = array[k];
-  }
-  for(i = 0, k = startL; i < (left.length - 1); ++i, ++k) {
-    left[i] = array[k];
-  }
-
-  // Adding sentinel values
-  right[right.length - 1] = Number.MAX_VALUE;
-  left[left.length - 1] = Number.MAX_VALUE;
-
-  // Merging the two sorted arrays into the initial one
-  for(k = startL, m = 0, n = 0; k < stopR; ++k) {
-    if(comparator(left[m], right[n]) <= 0) {
-      array[k] = left[m];
-      m++;
+function merge(start, stop, inarray, outarray, comparator) {
+  var totallen = stop - start;
+  var len = totallen/2;
+  var aCursor = start;
+  var bCursor = start + len;
+  var aDone = 0;
+  var bDone = 0;
+  var cCursor = start;
+  var a, b;
+  while ((aDone + bDone) < totallen) {
+    a = inarray[aCursor];
+    b = inarray[bCursor];
+    if (aDone === len) {
+      outarray[cCursor++] = b;
+      bCursor++;
+      bDone++;
+    } else if (bDone === len) {
+      outarray[cCursor++] = a;
+      aCursor++;
+      aDone++;
+    } else if(comparator(a, b) < 0) {
+      outarray[cCursor++] = a;
+      aCursor++;
+      aDone++;
     } else {
-      array[k] = right[n];
-      n++;
+      outarray[cCursor++] = b;
+      bCursor++;
+      bDone++;
     }
   }
 }
-
-module.exports = mergeSort;
