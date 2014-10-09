@@ -1,7 +1,7 @@
 {
   "name": "grin",
   "version": "1.0.3",
-  "description": "Super simple and non-recursive JSON parse/stringify library",
+  "description": "Super simple and non-recursive merge sort",
   "main": "index.js",
   "repository": {
     "type": "git",
